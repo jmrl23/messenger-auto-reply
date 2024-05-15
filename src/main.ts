@@ -1,7 +1,7 @@
 import { Client, Events, type ClientCredentials } from 'messenger-api.js';
 import { FBSTATE_PATH } from './constants/paths.constant';
-import { DataService } from './services/data.service';
 import readJsonFile from './utils/readJsonFile';
+import DataService from './services/data.service';
 import MessengerService from './services/messenger.service';
 import './commands';
 
