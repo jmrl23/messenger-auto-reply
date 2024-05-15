@@ -13,7 +13,9 @@ export default class CommandService {
     const keys = CommandService.commands.keys();
 
     for (const key of keys) {
-      if (content.startsWith(key)) return true;
+      if (content.startsWith(key) && content.charAt(key.length).trim() === '') {
+        return true;
+      }
     }
 
     return false;

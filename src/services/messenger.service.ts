@@ -1,7 +1,7 @@
 import type { Client, Message, User } from 'messenger-api.js';
 import { MODE } from '../constants/data.constant';
-import { DataService } from './data.service';
 import { GEN_AI_API_KEY } from '../constants/environment.constant';
+import DataService from './data.service';
 import CommandService from './command.service';
 import TemplateService from './template.service';
 import GenAiService from './genai.service';

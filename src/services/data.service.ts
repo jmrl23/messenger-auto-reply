@@ -4,7 +4,7 @@ import isFileExists from '../utils/isFileExists';
 import readJsonFile from '../utils/readJsonFile';
 import writeJsonFile from '../utils/writeJsonFile';
 
-export class DataService {
+export default class DataService {
   private static readonly dataPath = DATA_PATH;
 
   private constructor() {}
