@@ -34,6 +34,8 @@ export class DataService {
     // @ts-expect-error
     data[key] = value;
 
+    await writeJsonFile(DataService.dataPath, data);
+
     return data;
   }
 
