@@ -44,6 +44,12 @@ export default class CommandService {
     };
   }
 
+  public static getRegisteredCommands(): string[] {
+    const keys = Array.from(CommandService.commands.keys());
+
+    return keys;
+  }
+
   public static async processCommand(
     parsedContent: ParsedContent,
     client: Client,
