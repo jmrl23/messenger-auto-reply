@@ -9,3 +9,7 @@ Reply to your messenger chat instantly
 - [messenger-api.js](https://www.npmjs.com/package/messenger-api.js)
 - [c3c-fbstate](https://github.com/c3cbot/c3c-fbstate)
 - [Generative AI API key](https://aistudio.google.com/app/apikey)
+
+### Note
+
+I take no responsibility for your account, use at your own risk.
