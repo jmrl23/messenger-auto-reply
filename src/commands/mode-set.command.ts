@@ -14,7 +14,7 @@ CommandService.command<CommandCallback>(
     const value = args.join(' ');
     const mode = modes.get(value);
 
-    if (!mode) {
+    if (mode === undefined) {
       message.reply(
         { content: `invalid mode: ${value}` },
         {

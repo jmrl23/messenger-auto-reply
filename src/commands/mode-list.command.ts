@@ -5,7 +5,9 @@ CommandService.command<CommandCallback>(
   'mode list',
   async function modeList(_, message) {
     const keys = Object.keys(MODE).filter((value) => isNaN(Number(value)));
-    const keysStringified = keys.map((key) => `- ${key}`).join('\n');
+    const keysStringified = keys
+      .map((key) => `- ${key.toLowerCase()}`)
+      .join('\n');
 
     message.reply(
       { content: `modes:\n\n${keysStringified}` },
