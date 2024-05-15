@@ -5,6 +5,7 @@ import { GEN_AI_API_KEY } from '../constants/environment.constant';
 import CommandService from './command.service';
 import TemplateService from './template.service';
 import GenAiService from './genai.service';
+import ent from 'ent';
 
 export default class MessengerService {
   private constructor() {}
@@ -91,13 +92,17 @@ export default class MessengerService {
     switch (mode) {
       case MODE.Ai:
         {
-          const genAiService =
-            GenAiService.getInstanceById(message.threadId) ??
-            (await GenAiService.createInstance(
+          let genAiService = GenAiService.getInstanceById(message.threadId);
+
+          if (!genAiService) {
+            genAiService = await GenAiService.createInstance(
               message.threadId,
               GEN_AI_API_KEY,
               'gemini-pro',
-            ));
+            );
+
+            // await genAiService.sendMessage('Your initial message to AI');
+          }
 
           const response = await genAiService.sendMessage(message.content);
           const content = await TemplateService.renderTemplate(template, {
@@ -106,7 +111,7 @@ export default class MessengerService {
 
           await message.reply(
             {
-              content,
+              content: ent.decode(content),
             },
             {
               typing: true,
@@ -114,6 +119,7 @@ export default class MessengerService {
             },
           );
         }
+
         break;
       case MODE.Busy:
       case MODE.Offline:
@@ -123,7 +129,7 @@ export default class MessengerService {
 
         await message.reply(
           {
-            content,
+            content: ent.decode(content),
           },
           {
             typing: true,
@@ -132,6 +138,8 @@ export default class MessengerService {
         );
 
         break;
+      default:
+        console.log('Mode not implemented');
     }
   }
 }
