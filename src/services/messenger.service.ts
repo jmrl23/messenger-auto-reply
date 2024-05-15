@@ -92,32 +92,52 @@ export default class MessengerService {
     switch (mode) {
       case MODE.Ai:
         {
-          let genAiService = GenAiService.getInstanceById(message.threadId);
+          try {
+            let genAiService = GenAiService.getInstanceById(message.threadId);
 
-          if (!genAiService) {
-            genAiService = await GenAiService.createInstance(
+            if (!genAiService) {
+              genAiService = await GenAiService.createInstance(
+                message.threadId,
+                GEN_AI_API_KEY,
+                'gemini-pro',
+              );
+
+              // await genAiService.sendMessage('Your initial prompt');
+            }
+
+            const response = await genAiService.sendMessage(message.content);
+            const content = await TemplateService.renderTemplate(template, {
+              aiResponseMessage: response.response.text(),
+            });
+
+            await message.reply(
+              {
+                content: ent.decode(content),
+              },
+              {
+                typing: true,
+                returnMessage: false,
+              },
+            );
+          } catch (error) {
+            await GenAiService.createInstance(
               message.threadId,
               GEN_AI_API_KEY,
               'gemini-pro',
             );
 
-            // await genAiService.sendMessage('Your initial message to AI');
+            if (error instanceof Error) {
+              await message.reply(
+                {
+                  content: ent.decode(error.message),
+                },
+                {
+                  typing: true,
+                  returnMessage: false,
+                },
+              );
+            }
           }
-
-          const response = await genAiService.sendMessage(message.content);
-          const content = await TemplateService.renderTemplate(template, {
-            aiResponseMessage: response.response.text(),
-          });
-
-          await message.reply(
-            {
-              content: ent.decode(content),
-            },
-            {
-              typing: true,
-              returnMessage: false,
-            },
-          );
         }
 
         break;
