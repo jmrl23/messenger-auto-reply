@@ -5,7 +5,8 @@ CommandService.command<CommandCallback>(
   'disable',
   async function disable(_, message) {
     const appData = await DataService.set('active', false);
-    await message.reply(
+
+    message.reply(
       { content: `active: ${appData.active.toString()}` },
       {
         typing: false,

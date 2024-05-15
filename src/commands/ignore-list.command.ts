@@ -9,7 +9,7 @@ CommandService.command<CommandCallback>(
       .map((value, index) => `${index}. ${value}`)
       .join('\n');
 
-    await message.reply(
+    message.reply(
       { content: `ignore:\n\n${ignoreStringified}` },
       {
         typing: false,

@@ -15,7 +15,7 @@ CommandService.command<CommandCallback>(
     const mode = modes.get(value);
 
     if (!mode) {
-      await message.reply(
+      message.reply(
         { content: `invalid mode: ${value}` },
         {
           typing: false,
@@ -27,7 +27,7 @@ CommandService.command<CommandCallback>(
     }
 
     await DataService.set('mode', mode);
-    await message.reply(
+    message.reply(
       { content: `mode: ${value}` },
       {
         typing: false,

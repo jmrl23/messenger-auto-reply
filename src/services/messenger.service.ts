@@ -1,10 +1,9 @@
 import type { Client, Message, User } from 'messenger-api.js';
 import { MODE } from '../constants/data.constant';
-import { GEN_AI_API_KEY } from '../constants/environment.constant';
 import DataService from './data.service';
 import CommandService from './command.service';
 import TemplateService from './template.service';
-import GenAiService from './genai.service';
+import AiService from './ai.service';
 import ent from 'ent';
 
 export default class MessengerService {
@@ -89,65 +88,21 @@ export default class MessengerService {
 
     if (!template) return;
 
+    const extras: Record<string, unknown> = {};
+
     switch (mode) {
       case MODE.Ai:
-        {
-          try {
-            let genAiService = GenAiService.getInstanceById(message.threadId);
+        const aiService = await AiService.createInstance(message.threadId);
 
-            if (!genAiService) {
-              genAiService = await GenAiService.createInstance(
-                message.threadId,
-                GEN_AI_API_KEY,
-                'gemini-pro',
-              );
-
-              // await genAiService.sendMessage('Your initial prompt');
-            }
-
-            const response = await genAiService.sendMessage(message.content);
-            const content = await TemplateService.renderTemplate(template, {
-              aiResponseMessage: response.response.text(),
-            });
-
-            await message.reply(
-              {
-                content: ent.decode(content),
-              },
-              {
-                typing: true,
-                returnMessage: false,
-              },
-            );
-          } catch (error) {
-            await GenAiService.createInstance(
-              message.threadId,
-              GEN_AI_API_KEY,
-              'gemini-pro',
-            );
-
-            if (error instanceof Error) {
-              await message.reply(
-                {
-                  content: ent.decode(error.message),
-                },
-                {
-                  typing: true,
-                  returnMessage: false,
-                },
-              );
-            }
-          }
-        }
-
-        break;
+        extras.ai = await aiService.sendMessage(message.content);
       case MODE.Busy:
       case MODE.Offline:
         const content = await TemplateService.renderTemplate(template, {
           message,
+          extras,
         });
 
-        await message.reply(
+        message.reply(
           {
             content: ent.decode(content),
           },

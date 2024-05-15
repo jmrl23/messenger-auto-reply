@@ -8,7 +8,7 @@ CommandService.command<CommandCallback>(
     const ignore = await DataService.get('ignore');
 
     if (isNaN(value) || value < 0 || value > ignore.length - 1) {
-      await message.reply(
+      message.reply(
         { content: `invalid value: ${value}` },
         {
           typing: false,
@@ -23,7 +23,7 @@ CommandService.command<CommandCallback>(
 
     await DataService.set('ignore', ignore);
 
-    await message.reply(
+    message.reply(
       { content: `ignore removed: ${value}` },
       {
         typing: false,

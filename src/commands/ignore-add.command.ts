@@ -8,7 +8,7 @@ CommandService.command<CommandCallback>(
     const ignore = await DataService.get('ignore');
 
     if (value in ignore) {
-      await message.reply(
+      message.reply(
         { content: `already ignored: ${value}` },
         {
           typing: false,
@@ -23,7 +23,7 @@ CommandService.command<CommandCallback>(
 
     await DataService.set('ignore', ignore);
 
-    await message.reply(
+    message.reply(
       { content: `ignored: ${value}` },
       {
         typing: false,
