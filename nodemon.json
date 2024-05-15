@@ -1,6 +1,6 @@
 {
   "watch": ["./src/**/*", ".env"],
-  "exec": "dotenv -v NODE_ENV=development -- ts-node ./src/main.ts",
+  "exec": "dotenv -e .env -v NODE_ENV=development -- ts-node ./src/main.ts",
   "ext": "ts",
   "delay": 1000
 }
