@@ -7,10 +7,20 @@ export default class AiService {
     private genAiService: GenAiService,
   ) {}
 
-  public static async createInstance(id: string): Promise<AiService> {
-    const genAiService =
-      GenAiService.getInstanceById(id) ??
-      (await AiService.createGenAiInstance(id));
+  public static async createInstance(
+    id: string,
+    initialPrompt?: string,
+  ): Promise<AiService> {
+    let genAiService = GenAiService.getInstanceById(id);
+
+    if (!genAiService) {
+      genAiService = await AiService.createGenAiInstance(id);
+
+      if (initialPrompt !== undefined) {
+        await genAiService.sendMessage(initialPrompt);
+      }
+    }
+
     const instance = new AiService(id, genAiService);
 
     return instance;
