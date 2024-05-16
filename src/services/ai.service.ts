@@ -16,8 +16,12 @@ export default class AiService {
     if (!genAiService) {
       genAiService = await AiService.createGenAiInstance(id);
 
-      if (initialPrompt !== undefined) {
-        await genAiService.sendMessage(initialPrompt);
+      try {
+        if (initialPrompt !== undefined) {
+          await genAiService.sendMessage(initialPrompt);
+        }
+      } catch (error) {
+        // do nothing
       }
     }
 
