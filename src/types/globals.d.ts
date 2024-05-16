@@ -9,6 +9,6 @@ export global {
   }
 
   interface CommandCallback {
-    (client: Client, message: Message, ...rest: args[]): void;
+    (client: Client, message: Message, ...args: string[]): void;
   }
 }
