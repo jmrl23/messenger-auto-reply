@@ -1,5 +1,3 @@
-import type { Client, Message } from 'messenger-api.js';
-
 export default class CommandService {
   private static commands = new Map<string, Function>();
 
@@ -52,12 +50,11 @@ export default class CommandService {
 
   public static async processCommand(
     parsedContent: ParsedContent,
-    client: Client,
-    message: Message,
+    ...rest: unknown[]
   ): Promise<void> {
     const callback = CommandService.commands.get(parsedContent.command);
 
-    await Promise.resolve(callback?.(client, message, ...parsedContent.args));
+    await Promise.resolve(callback?.(...rest, ...parsedContent.args));
   }
 }
 
