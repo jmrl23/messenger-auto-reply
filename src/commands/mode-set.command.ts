@@ -3,7 +3,7 @@ import CommandService from '../services/command.service';
 import DataService from '../services/data.service';
 
 const modes = new Map<string, MODE>([
-  ['ai', MODE.Ai],
+  ['gpt', MODE.Gpt],
   ['busy', MODE.Busy],
   ['offline', MODE.Offline],
 ]);

@@ -1,6 +1,6 @@
 {
-  "watch": ["./src/**/*", ".env"],
+  "watch": ["./src/**/*", ".env", "./data/fbstate"],
   "exec": "dotenv -e .env -v NODE_ENV=development -- ts-node ./src/main.ts",
-  "ext": "ts",
+  "ext": "ts,json",
   "delay": 1000
 }

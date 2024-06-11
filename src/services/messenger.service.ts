@@ -3,8 +3,9 @@ import { MODE } from '../constants/data.constant';
 import DataService from './data.service';
 import CommandService from './command.service';
 import TemplateService from './template.service';
-import AiService from './ai.service';
 import ent from 'ent';
+import GptService from './gpt.service';
+import { OPENAI_API_KEY } from '../constants/environment.constant';
 
 export default class MessengerService {
   private constructor() {}
@@ -79,11 +80,10 @@ export default class MessengerService {
     message: Message,
   ): Promise<void> {
     const templates = new Map<MODE, string>([
-      [MODE.Ai, 'ai'],
+      [MODE.Gpt, 'gpt'],
       [MODE.Busy, 'busy'],
       [MODE.Offline, 'offline'],
     ]);
-
     const template = templates.get(mode);
 
     if (!template) return;
@@ -91,10 +91,34 @@ export default class MessengerService {
     const extras: Record<string, unknown> = {};
 
     switch (mode) {
-      case MODE.Ai:
-        const aiService = await AiService.createInstance(message.threadId);
+      case MODE.Gpt:
+        let gptService = GptService.getInstance(message.threadId);
 
-        extras.ai = await aiService.sendMessage(message.content);
+        if (!gptService) {
+          gptService = await GptService.createInstance(
+            message.threadId,
+            {
+              apiKey: OPENAI_API_KEY,
+            },
+            'gpt-3.5-turbo',
+          );
+
+          // Set GPT persona
+          // await gptService.sendMessage({
+          //   role: 'system',
+          //   content: `
+          //     I want you to act as a lunatic. The lunatic's sentences are meaningless.
+          //     The words used by lunatic are completely arbitrary. The lunatic does not
+          //     make logical sentences in any way.
+          //   `.trim(),
+          // });
+        }
+
+        extras.gpt_message = await gptService.sendMessage({
+          role: 'user',
+          content: message.content,
+        });
+
       case MODE.Busy:
       case MODE.Offline:
         const content = await TemplateService.renderTemplate(template, {
@@ -115,6 +139,15 @@ export default class MessengerService {
         break;
       default:
         console.log('Mode not implemented');
+        message.reply(
+          {
+            content: '😵',
+          },
+          {
+            typing: true,
+            returnMessage: false,
+          },
+        );
     }
   }
 }
