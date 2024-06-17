@@ -1,14 +1,14 @@
+import ent from 'ent';
 import type { Client, Message, User } from 'messenger-api.js';
 import { MODE } from '../constants/data.constant';
-import DataService from './data.service';
-import CommandService from './command.service';
-import TemplateService from './template.service';
-import ent from 'ent';
-import GptService from './gpt.service';
 import {
   OPENAI_API_KEY,
   OPENAI_BASE_URL,
 } from '../constants/environment.constant';
+import CommandService from './command.service';
+import DataService from './data.service';
+import GptService from './gpt.service';
+import TemplateService from './template.service';
 
 export default class MessengerService {
   private constructor() {}

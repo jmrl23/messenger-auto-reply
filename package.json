@@ -14,12 +14,12 @@
     "@types/ent": "^2.2.8",
     "@types/mustache": "^4.2.5",
     "@types/node": "^20.12.12",
-    "dotenv-cli": "^7.4.2",
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "ent": "^2.2.0",
     "env-var": "^7.4.2",
     "messenger-api.js": "^0.1.8",

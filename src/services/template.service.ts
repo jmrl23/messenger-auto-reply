@@ -1,6 +1,6 @@
-import { TEMPLATE_DIR } from '../constants/paths.constant';
-import path from 'node:path';
 import mustache from 'mustache';
+import path from 'node:path';
+import { TEMPLATE_DIR } from '../constants/paths.constant';
 import isFileExists from '../utils/isFileExists';
 import readFile from '../utils/readFile';
 
@@ -24,7 +24,7 @@ export default class TemplateService {
     }
 
     const template = await readFile(templatePath);
-    const renderedTemplate = mustache.render(template, data);
+    const renderedTemplate = mustache.render(template, data).trim();
 
     return renderedTemplate;
   }

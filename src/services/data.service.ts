@@ -48,3 +48,9 @@ export default class DataService {
     return value;
   }
 }
+
+interface AppData {
+  active: boolean;
+  mode: MODE;
+  ignore: string[];
+}
