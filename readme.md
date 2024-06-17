@@ -1,6 +1,6 @@
 # Messenger auto reply
 
-![#](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdTE4ZW1lcTNiMm5ybThudjhvNXV2dmZjMjdwYjR3dHFocjc5aDNwaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26FPJGjhefSJuaRhu/giphy.gif)
+![#](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2prYzNlcnIzbHY0YXpvNDdzY2xpb3owamc3cjd2bDNpNGE4NjAxYSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/l44QzK8puPmokuTsc/giphy.gif)
 
 Reply to your messenger chat instantly
 
@@ -8,7 +8,7 @@ Reply to your messenger chat instantly
 
 - [messenger-api.js](https://www.npmjs.com/package/messenger-api.js)
 - [c3c-fbstate](https://github.com/c3cbot/c3c-fbstate)
-- [Generative AI API key](https://aistudio.google.com/app/apikey)
+- [OpenAI authentication](https://platform.openai.com/docs/api-reference/authentication)
 
 ### Note
 
