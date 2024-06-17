@@ -5,7 +5,10 @@ import CommandService from './command.service';
 import TemplateService from './template.service';
 import ent from 'ent';
 import GptService from './gpt.service';
-import { OPENAI_API_KEY } from '../constants/environment.constant';
+import {
+  OPENAI_API_KEY,
+  OPENAI_BASE_URL,
+} from '../constants/environment.constant';
 
 export default class MessengerService {
   private constructor() {}
@@ -95,29 +98,35 @@ export default class MessengerService {
         let gptService = GptService.getInstance(message.threadId);
 
         if (!gptService) {
-          gptService = await GptService.createInstance(
-            message.threadId,
-            {
-              apiKey: OPENAI_API_KEY,
-            },
-            'gpt-3.5-turbo',
-          );
+          gptService = await GptService.createInstance({
+            apiKey: OPENAI_API_KEY,
+            baseURL: OPENAI_BASE_URL,
+          });
+
+          GptService.registerInstance(message.threadId, gptService);
 
           // Set GPT persona
-          // await gptService.sendMessage({
-          //   role: 'system',
-          //   content: `
-          //     I want you to act as a lunatic. The lunatic's sentences are meaningless.
-          //     The words used by lunatic are completely arbitrary. The lunatic does not
-          //     make logical sentences in any way.
-          //   `.trim(),
-          // });
+          await gptService.send({
+            role: 'system',
+            content: `
+              Act as an assistant AI that is willing to answer any topic. 
+              Make your answers humanly as possible, straightforward, and short. 
+              My first statement is "Hi there."
+            `.trim(),
+          });
         }
 
-        extras.gpt_message = await gptService.sendMessage({
-          role: 'user',
-          content: message.content,
-        });
+        extras.gpt_message = '😵';
+        try {
+          extras.gpt_message = await gptService.send({
+            role: 'user',
+            content: message.content,
+          });
+        } catch (error) {
+          if (error instanceof Error) {
+            extras.gpt_message = error.message;
+          }
+        }
 
       case MODE.Busy:
       case MODE.Offline:
@@ -138,16 +147,7 @@ export default class MessengerService {
 
         break;
       default:
-        console.log('Mode not implemented');
-        message.reply(
-          {
-            content: '😵',
-          },
-          {
-            typing: true,
-            returnMessage: false,
-          },
-        );
+        console.log(`Cannot recognize mode "${mode}"`);
     }
   }
 }
