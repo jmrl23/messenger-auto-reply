@@ -24,6 +24,7 @@
     "env-var": "^7.4.2",
     "messenger-api.js": "^0.1.8",
     "mustache": "^4.2.0",
-    "openai": "^4.50.0"
+    "openai": "^4.50.0",
+    "tiktoken": "^1.0.15"
   }
 }

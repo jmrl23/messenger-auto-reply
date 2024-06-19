@@ -101,19 +101,13 @@ export default class MessengerService {
           gptService = await GptService.createInstance({
             apiKey: OPENAI_API_KEY,
             baseURL: OPENAI_BASE_URL,
+            initialPrompt: `
+              Act as an assistant AI that is willing to answer any topic. 
+              Make your answers humanly as possible, straightforward, and short. 
+            `.trim(),
           });
 
           GptService.registerInstance(message.threadId, gptService);
-
-          // Set GPT persona
-          await gptService.send({
-            role: 'system',
-            content: `
-              Act as an assistant AI that is willing to answer any topic. 
-              Make your answers humanly as possible, straightforward, and short. 
-              My first statement is "Hi there."
-            `.trim(),
-          });
         }
 
         extras.gpt_message = '😵';
