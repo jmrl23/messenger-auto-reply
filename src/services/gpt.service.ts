@@ -58,7 +58,7 @@ export default class GptService {
     const instance = new GptService(
       openAi,
       model ?? 'gpt-3.5-turbo',
-      Math.floor(maxRetries ?? 3),
+      Math.floor(maxRetries ?? openAi.maxRetries),
       maxtokens ?? 4_096, // gpt-3.5-turbo's default max tokens
       initialPrompt,
     );
