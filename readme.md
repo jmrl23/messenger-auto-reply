@@ -1,6 +1,6 @@
 # Messenger auto reply
 
-reply to your message instantly when you're not available
+reply to your messages instantly when you're not available
 
 ![#](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2prYzNlcnIzbHY0YXpvNDdzY2xpb3owamc3cjd2bDNpNGE4NjAxYSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/l44QzK8puPmokuTsc/giphy.gif)
 
