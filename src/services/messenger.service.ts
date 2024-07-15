@@ -1,6 +1,6 @@
 import ent from 'ent';
 import type { Client, Message, User } from 'messenger-api.js';
-import { MODE } from '../constants/data.constant';
+import { Mode, MODES } from '../constants/data.constant';
 import {
   OPENAI_API_KEY,
   OPENAI_BASE_URL,
@@ -79,13 +79,13 @@ export default class MessengerService {
   }
 
   private static async sendResponse(
-    mode: MODE,
+    mode: Mode,
     message: Message,
   ): Promise<void> {
-    const templates = new Map<MODE, string>([
-      [MODE.Gpt, 'gpt'],
-      [MODE.Busy, 'busy'],
-      [MODE.Offline, 'offline'],
+    const templates = new Map<Mode, string>([
+      ['Offline', 'offline'],
+      ['Busy', 'busy'],
+      ['Gpt', 'gpt'],
     ]);
     const template = templates.get(mode);
 
@@ -94,7 +94,7 @@ export default class MessengerService {
     const extras: Record<string, unknown> = {};
 
     switch (mode) {
-      case MODE.Gpt:
+      case 'Gpt':
         let gptService = GptService.getInstance(message.threadId);
 
         if (!gptService) {
@@ -122,26 +122,17 @@ export default class MessengerService {
           }
         }
 
-      case MODE.Busy:
-      case MODE.Offline:
+      case 'Busy':
+      case 'Offline':
         const content = await TemplateService.renderTemplate(template, {
           message,
           extras,
         });
 
         message.reply(
-          {
-            content: ent.decode(content),
-          },
-          {
-            typing: true,
-            returnMessage: false,
-          },
+          { content: ent.decode(content) },
+          { typing: true, returnMessage: false },
         );
-
-        break;
-      default:
-        console.log(`Cannot recognize mode "${mode}"`);
     }
   }
 }

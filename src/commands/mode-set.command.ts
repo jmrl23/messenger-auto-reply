@@ -1,26 +1,19 @@
-import { MODE } from '../constants/data.constant';
+import { MODES } from '../constants/data.constant';
 import CommandService from '../services/command.service';
 import DataService from '../services/data.service';
-
-const modes = new Map<string, MODE>([
-  ['gpt', MODE.Gpt],
-  ['busy', MODE.Busy],
-  ['offline', MODE.Offline],
-]);
 
 CommandService.command<CommandCallback>(
   'mode set',
   async function modeSet(_, message, ...args) {
     const value = args.join(' ');
-    const mode = modes.get(value);
+    const mode = MODES.find(
+      (mode) => value.toLowerCase() === mode.toLowerCase(),
+    );
 
-    if (mode === undefined) {
+    if (!mode) {
       message.reply(
         { content: `invalid mode: ${value}` },
-        {
-          typing: false,
-          returnMessage: false,
-        },
+        { typing: false, returnMessage: false },
       );
 
       return;
@@ -28,11 +21,8 @@ CommandService.command<CommandCallback>(
 
     await DataService.set('mode', mode);
     message.reply(
-      { content: `mode: ${value}` },
-      {
-        typing: false,
-        returnMessage: false,
-      },
+      { content: `mode: ${mode}` },
+      { typing: false, returnMessage: false },
     );
   },
 );

@@ -1,4 +1,4 @@
-import { MODE } from '../constants/data.constant';
+import { type Mode, MODES } from '../constants/data.constant';
 import { DATA_PATH } from '../constants/paths.constant';
 import isFileExists from '../utils/isFileExists';
 import readJsonFile from '../utils/readJsonFile';
@@ -13,7 +13,7 @@ export default class DataService {
     if (!isFileExists(DataService.dataPath)) {
       await writeJsonFile(DataService.dataPath, {
         active: true,
-        mode: MODE.Offline,
+        mode: MODES[0],
         ignore: [],
       } satisfies AppData);
     }
@@ -31,8 +31,9 @@ export default class DataService {
   ): Promise<AppData> {
     const data = await DataService.getData();
 
-    // @ts-expect-error
-    data[key] = value;
+    Object.assign(data, {
+      [key]: value,
+    });
 
     await writeJsonFile(DataService.dataPath, data);
 
@@ -51,6 +52,6 @@ export default class DataService {
 
 interface AppData {
   active: boolean;
-  mode: MODE;
+  mode: Mode;
   ignore: string[];
 }

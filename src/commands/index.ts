@@ -1,3 +1,8 @@
+/**
+ * message your own account to
+ * execute commands
+ */
+
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
